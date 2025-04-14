@@ -1,0 +1,267 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
+    background-color: #FFFFFF;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 16px;
+}
+
+.game-container {
+    width: 800px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.header {
+    margin-bottom: 20px;
+    background-color: #D830C0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.score-container {
+    font-size: 18px;
+    color: white;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 25px;
+    padding: 8px 15px;
+    display: inline-block;
+    margin: 5px auto 0;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+}
+
+#game-area {
+    width: 800px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    border: 4px solid #D830C0;
+    background-image: url('yuto-background.jpg');
+    background-size: cover;
+    background-position: center;
+    image-rendering: pixelated;
+}
+
+/* Área para la calle pixelada - ahora con bordes definidos */
+.road {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 70px; /* Altura reducida para que coincida con las líneas */
+    background-color: #555;
+    z-index: 1;
+}
+
+/* Líneas de la calle - línea amarilla central y líneas blancas que delimitan */
+.road:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(to bottom, transparent, transparent 33px, #FFF200 33px, #FFF200 37px, transparent 37px),
+        linear-gradient(to bottom, transparent, transparent 5px, white 5px, white 9px, transparent 9px),
+        linear-gradient(to bottom, transparent, transparent 61px, white 61px, white 65px, transparent 65px);
+    z-index: 2;
+}
+
+/* Estilo del personaje (Sebastián) */
+#player { 
+    width: 96px;
+    height: 192px;
+    position: absolute;
+    bottom: 15px; /* Ajustado para que esté en la calle */
+    left: 100px;
+    background-image: url('sebastian-pixel.png'); /* Reemplazar con la ruta correcta de tu imagen */
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 10;
+}
+.pothole {
+    width: 50px;
+    height: 20px;
+    background-color: #000000;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px; /* Ajustado para que aparezca en la calle */
+    z-index: 2;
+}
+
+/* Estilo para el mensaje como nube de conversación al lado de la boca */
+.message-box {
+    position: absolute;
+    bottom: 300px; /* Cerca de los pies del jugador */
+    max-width: 160px;
+    padding: 4px 6px; /* Más compacto */
+    background-color: white;
+    border: 2px solid #40E0D0;
+    border-radius: 10px;
+    color: #000000;
+    font-size: 9px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 20;
+    text-align: center;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+    letter-spacing: 0px;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Triángulo de la nube de conversación (ahora apuntando al costado) */
+.message-box:after {
+    content: '';
+    position: absolute;
+    right: -8px; /* Ahora sale del lado derecho */
+    top: 50%; /* En el medio verticalmente */
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-left-color: white; /* El triangulito sale del lado izquierdo */
+    border-right: 0;
+    margin-top: -8px;
+}
+
+.campaign-banner {
+    margin: 20px 0;
+    padding: 12px;
+    background-color: #D830C0;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.instructions {
+    margin: 20px 0;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Nuevo estilo para el banner de créditos similar al campaign-banner */
+.credits-banner {
+    margin: 20px 0;
+    padding: 12px;
+    background-color: #40E0D0;  /* Manteniendo el color original turquesa */
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+#game-over {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    color: white;
+}
+
+#game-over h2 {
+    margin-bottom: 15px;
+    color: #D830C0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hidden {
+    display: none !important;
+}
+
+#restart-button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 16px;
+    background-color: #D830C0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+}
+
+#restart-button:hover {
+    background-color: #BF2BAC;
+    transform: translateY(-2px);
+}
+
+#restart-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+}
+
+/* Estilo para el botón de música */
+#play-music-button {
+    margin: 15px auto;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #FFF200;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+    display: block;
+    font-weight: bold;
+}
+
+#play-music-button:hover {
+    background-color: #FFD700;
+    transform: translateY(-2px);
+}
+
+#play-music-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Clase para ocultar el botón de música */
+.music-playing {
+    display: none !important;
+}
